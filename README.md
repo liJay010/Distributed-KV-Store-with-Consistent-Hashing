@@ -97,27 +97,29 @@
 
 ### 编译运行
 
-> g++ -g slaveServer.cpp -o slave COMMON_FUNCN.h jsonstring.h -lpthread
-> g++ -g client.cpp -o client COMMON_FUNCN.h jsonstring.h
-> g++ -g Coordination_Server.cpp -o coord COMMON_FUNCN.h COORD_FUNC.h GLOBAL_CS.h  jsonstring.h -lpthread
+`g++ -g slaveServer.cpp -o slave COMMON_FUNCN.h jsonstring.h -lpthread`
+
+`g++ -g client.cpp -o client COMMON_FUNCN.h jsonstring.h`
+
+`g++ -g Coordination_Server.cpp -o coord COMMON_FUNCN.h COORD_FUNC.h GLOBAL_CS.h  jsonstring.h -lpthread`
 
 启动coord
 
-> ./coord 127.0.0.1 8888
+` ./coord 127.0.0.1 8888`
 
 启动client
 
-> ./client 127.0.0.1 10000
+` ./client 127.0.0.1 10000`
 
 启动slave1
 
-> ./slave 127.0.0.1 20000
+` ./slave 127.0.0.1 20000`
 
 通过client发送PUT、GET、DELETE、UPDATE请求，查看coord、slave状态
 
 启动slave2
 
-> ./slave 127.0.0.1 20001
+` ./slave 127.0.0.1 20001`
 
 查看coord、slave1、slave2状态，此时发生数据转移
 
@@ -125,8 +127,13 @@
 
 启动slave3
 
-> ./slave 127.0.0.1 20002
+` ./slave 127.0.0.1 20002`
 
 查看coord、slave1、slave2，slave3状态，此时发生数据转移
 
 关闭slave1，查看coord、slave2、slave3状态，此时也发生了数据转移
+
+### TODO
+* 单个协调服务器节点负载太高，容易产生单点故障，可以为其建立协调服务器集群，由哨兵集群负责主从节点切换，提高可用性。
+* 目前节点之间通信采用同步方式，可以改为异步方式进行通信，然后采用分布式共识算法(Raft/Paxos)满足数据的一致性。
+* 目前采用per client，per thread的简单服务器模型，可改为per client，per eventloop的多Reactor多线程模型。
