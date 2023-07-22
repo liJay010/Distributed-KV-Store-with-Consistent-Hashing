@@ -14,10 +14,6 @@ Document doc;
 map<string, string> ownmap;
 map<string, string> prevmap;
 
-int readers=0;//indicating there are no readers in critical section
-int writers=1;//Allowing 1 writer at a time in critical section
-mutex mx;
-
 struct thread_data
 {
 	string ip;
